@@ -5,30 +5,28 @@ import axios from "axios";
 const AdminDashboard = () => {
   const [homeworks, setHomeworks] = useState([]);
   const { user } = useContext(MyContext);
-
-  const approveStatus = async (homeworkId) => {
+  const updateStatus = async (homeworkId, approvedStatus) => {
     try {
       const response = await axios.put(
         `http://localhost:8000/admin/approve-homework/${homeworkId}`,
-        null,
+        { approvedStatus },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      alert("Status updated");
-      // Update the local state with the modified data
+
       setHomeworks((prevHomeworks) =>
         prevHomeworks.map((homework) =>
           homework.homeworkId === homeworkId
-            ? { ...homework, approvedStatus: true }
+            ? { ...homework, approvedStatus }
             : homework
         )
       );
       console.log("Approval response:", response.data); // Log the response data
     } catch (error) {
-      console.error("Error approving homework:", error);
+      console.error("Error updating homework status:", error);
     }
   };
 
@@ -91,12 +89,20 @@ const AdminDashboard = () => {
                 )}
               </td>
               <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                <button
-                  onClick={() => approveStatus(homework.homeworkId)}
-                  className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-                >
-                  Approve
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => updateStatus(homework.homeworkId, true)}
+                    className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => updateStatus(homework.homeworkId, false)}
+                    className="inline-block rounded bg-red-500 px-4 py-2 text-xs font-medium text-white hover:bg-red-600"
+                  >
+                    Reject
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

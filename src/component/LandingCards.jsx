@@ -14,7 +14,7 @@ export const LandingCards = () => {
       </p>
       <div className="flex justify-center space-x-4">
         <button
-          onClick={() => navigate("/student")}
+          onClick={() => navigate("/student/login")}
           className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full focus:outline-none focus:shadow-outline-blue transform transition-transform duration-300 ease-in-out"
         >
           Student

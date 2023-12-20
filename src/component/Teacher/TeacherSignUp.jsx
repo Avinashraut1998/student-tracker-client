@@ -22,8 +22,7 @@ const TeacherSignUp = () => {
           password: password,
         }
       );
-      navigate("/teacher/dashboard");
-      console.log(response.data);
+      alert("Sign Up successfull");
     } catch (error) {
       console.log(error.message);
     }

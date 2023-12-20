@@ -17,8 +17,10 @@ const StudentLogin = () => {
         email: email,
         password: password,
       });
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+
       navigate("/student/dashboard");
-      console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }

@@ -6,7 +6,6 @@ const SingleAnswer = () => {
   const [answer, setAnswer] = useState(null);
   const { answerId } = useParams();
   const cleanAnswerId = answerId.replace(/[{}]/g, "");
-  const [newStatus, setNewStatus] = useState("");
 
   const handleStatus = async (status) => {
     try {

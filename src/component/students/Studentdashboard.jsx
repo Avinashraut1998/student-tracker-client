@@ -1,92 +1,79 @@
-import React from "react";
-import { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Studentdashboard = () => {
-  const [homeworkSolution, setHomeworkSolution] = useState("");
-  const [homeworkId, setHomeworkId] = useState("");
-  const [submittedHomeworks, setSubmittedHomeworks] = useState([]);
+  const [homeworks, setHomeworks] = useState([]);
 
-  const handleHomeworkSubmit = (e) => {
-    e.preventDefault();
-
-    // Simulate a server response (you would replace this with an actual API call)
-    const newHomework = {
-      id: homeworkId,
-      solution: homeworkSolution,
+  useEffect(() => {
+    const fetchHomeworks = async () => {
+      try {
+        // Fetch Homeworks
+        const homeworksResponse = await axios.get(
+          `http://localhost:8000/student/approved-homeworks`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setHomeworks(homeworksResponse.data.approvedHomeworks);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    // Update the list of submitted homeworks
-    setSubmittedHomeworks((prevHomeworks) => [...prevHomeworks, newHomework]);
-
-    // Clear the form fields
-    setHomeworkId("");
-    setHomeworkSolution("");
-  };
-
+    fetchHomeworks();
+  }, []);
+  console.log(homeworks);
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">Student Dashboard</h1>
+    <div>
+      {homeworks.length !== 0 ? (
+        <div className="overflow-x-auto mt-4">
+          <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+            <thead className="ltr:text-left rtl:text-right">
+              <tr>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Student Name
+                </th>
 
-      {/* Homework Solving Form */}
-      <form onSubmit={handleHomeworkSubmit} className="w-full max-w-lg mx-auto">
-        <div className="mb-4">
-          <label
-            htmlFor="homeworkId"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Homework ID
-          </label>
-          <input
-            type="text"
-            id="homeworkId"
-            name="homeworkId"
-            value={homeworkId}
-            onChange={(e) => setHomeworkId(e.target.value)}
-            className="form-input mt-1 block w-full"
-            required
-          />
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Question
+                </th>
+
+                <th className="px-4 py-2"></th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-gray-200">
+              {homeworks.map((item) => (
+                <tr key={item.homeworkId}>
+                  <td className="whitespace-nowrap px-4 py-2 text-center font-medium text-gray-900">
+                    {item.teacherName}
+                  </td>
+
+                  <td className="whitespace-nowrap  text-center px-4 py-2 text-gray-700">
+                    {item.title}
+                  </td>
+
+                  <td className="whitespace-nowrap px-4 py-2">
+                    <NavLink
+                      to={`../answer/${item.homeworkId}}`}
+                      className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+                    >
+                      View
+                    </NavLink>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-
-        <div className="mb-4">
-          <label
-            htmlFor="homeworkSolution"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Homework Solution
-          </label>
-          <textarea
-            id="homeworkSolution"
-            name="homeworkSolution"
-            value={homeworkSolution}
-            onChange={(e) => setHomeworkSolution(e.target.value)}
-            rows="4"
-            className="form-textarea mt-1 block w-full"
-            required
-          ></textarea>
-        </div>
-
-        <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-          >
-            Submit Homework
-          </button>
-        </div>
-      </form>
-
-      {/* Display Submitted Homeworks */}
-      <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Submitted Homeworks</h2>
-        <ul>
-          {submittedHomeworks.map((homework) => (
-            <li key={homework.id} className="mb-2">
-              Homework ID: {homework.id}, Solution: {homework.solution}
-            </li>
-          ))}
-        </ul>
-      </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
+
 export default Studentdashboard;

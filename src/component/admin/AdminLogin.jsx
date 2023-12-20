@@ -32,7 +32,7 @@ const AdminLogin = () => {
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Login to your account
+          Welcome Admin Login to your Account
         </h2>
       </div>
 
@@ -94,16 +94,6 @@ const AdminLogin = () => {
             </button>
           </div>
         </form>
-
-        <p className="mt-2  text-center text-sm text-gray-500">
-          Not Registered?
-          <NavLink
-            to="/admin/signup"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-          >
-            Register Here
-          </NavLink>
-        </p>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ const StudentSignup = () => {
           password: password,
         }
       );
-      navigate("/student/dashboard");
+      alert("successfull");
       console.log(response.data);
     } catch (error) {
       console.log(error.message);

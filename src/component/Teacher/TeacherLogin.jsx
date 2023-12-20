@@ -22,7 +22,7 @@ const TeacherLogin = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("token", null);
+    localStorage.setItem("token", null);  
   }, []);
 
   return (
