@@ -36,7 +36,7 @@ const TeacherPage = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="bg-violet-300 h-screen w-screen flex">
+        <div className="p-4 sm:ml-64 flex bg-violet-200 h-screen ">
           <DrawerTeacher />
           <div className="w-3/4">
             <Outlet />

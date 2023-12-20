@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
@@ -20,7 +20,9 @@ const AdminLogin = () => {
     localStorage.setItem("token", token);
     navigate("/admin/dashboard");
   };
-
+  useEffect(() => {
+    localStorage.setItem("token", null);
+  }, []);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

@@ -7,7 +7,7 @@ const NavBar = () => {
   const { user, setUser } = useContext(MyContext);
   const navigate = useNavigate();
   return (
-    <nav className="bg-gray-800 p-2 sticky top-0">
+    <nav className="bg-gray-800 p-2 sticky z-50 top-0">
       <div className="container mx-auto flex items-center justify-between">
         <NavLink to="/">
           <div className="flex items-center">
@@ -29,7 +29,7 @@ const NavBar = () => {
               onClick={() => {
                 localStorage.setItem("token", null);
                 setUser(null);
-                navigate("/teacher/login");
+                navigate("/");
               }}
               className="bg-white text-lg text-blue-500 px-2 py-0.5 rounded-md hover:bg-blue-300 focus:outline-none"
             >

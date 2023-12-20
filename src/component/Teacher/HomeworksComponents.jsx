@@ -4,27 +4,30 @@ const HomeworksComponent = ({ homeworks }) => {
   return (
     <div>
       {homeworks.length !== 0 ? (
-        <div className=" bg-white p-4 shadow-md rounded-lg mt-4 ">
+        <div className=" bg-gray-300 p-4 shadow-md rounded-lg mt-4 ">
           <h2 className="text-2xl font-bold mb-4">All Homeworks</h2>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
-            <table className="w-full text-sm text-left rtl:text-right text-black ">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+              <thead className="ltr:text-left rtl:text-right">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-white">
+                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     Title
                   </th>
-                  <th scope="col" className="px-6 py-3 text-white">
+                  <th
+                    scope="col"
+                    className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                  >
                     Status
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-200">
                 {homeworks.map((homework) => (
                   <tr key={homework._id}>
-                    <td className="border border-gray-300 px-4 py-2">
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {homework.title}
                     </td>
-                    <td className="border border-gray-300 px-2 py-2">
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {homework.approvedByAdmin ? (
                         <span className="text-green-500 font-bold">
                           Approved

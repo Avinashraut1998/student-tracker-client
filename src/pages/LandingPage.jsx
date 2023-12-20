@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LandingCards } from "../component/LandingCards";
 
 const LandingPage = () => {
+  useEffect(() => {
+    localStorage.setItem("token", null);
+  }, []);
   return (
     <div
       className="bg-cover bg-center flex justify-center items-center h-screen"

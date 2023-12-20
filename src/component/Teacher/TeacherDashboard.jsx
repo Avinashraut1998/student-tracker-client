@@ -11,10 +11,12 @@ const TeacherDashboard = () => {
   const { user } = useContext(MyContext);
 
   useEffect(() => {
-    const fetchHomeworks = async () => {
+    const fetchHomeworksAndAnswers = async () => {
       const userId = user._id;
+
       try {
-        const response = await axios.get(
+        // Fetch Homeworks
+        const homeworksResponse = await axios.get(
           `http://localhost:8000/teacher/fetch-homeworks/${userId}`,
           {
             headers: {
@@ -22,23 +24,34 @@ const TeacherDashboard = () => {
             },
           }
         );
-        setHomeworks(response.data.homeworks);
+        setHomeworks(homeworksResponse.data.homeworks);
+
+        // Fetch Answers
+        const answersResponse = await axios.get(
+          `http://localhost:8000/teacher/fetch-answers/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setAnswers(answersResponse.data.answersList);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchHomeworks();
-  }, []);
+    fetchHomeworksAndAnswers();
+  }, [user._id]);
 
   return (
-    <div className="p-4 flex justify-around items-center gap-5  ">
+    <div className="p-4 ml-24 flex justify-around gap-6  ">
       <div>
         <CreateHomework homeworks={homeworks} setHomeworks={setHomeworks} />
         <HomeworksComponent homeworks={homeworks} />
       </div>
       <div>
-        <AnswersList />
+        <AnswersList answers={answers} setAnswers={setAnswers} />
       </div>
     </div>
   );
