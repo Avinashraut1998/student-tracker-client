@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { MyContext } from "../../MyContext";
+import axios from "axios";
 
-const HomeworksComponent = ({ homeworks }) => {
+const HomeworksComponent = () => {
+  const { user, homeworks, setHomeworks } = useContext(MyContext);
+  useEffect(() => {
+    const fetchHomeworksAndAnswers = async () => {
+      const userId = user._id;
+
+      try {
+        // Fetch Homeworks
+        const homeworksResponse = await axios.get(
+          `http://localhost:8000/teacher/fetch-homeworks/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setHomeworks(homeworksResponse.data.homeworks);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchHomeworksAndAnswers();
+  }, [user._id]);
   return (
     <div>
       {homeworks.length !== 0 ? (
@@ -24,10 +49,10 @@ const HomeworksComponent = ({ homeworks }) => {
               <tbody className="divide-y divide-gray-200">
                 {homeworks.map((homework) => (
                   <tr key={homework._id}>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-2 text-center font-medium text-gray-900">
                       {homework.title}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-2 text-center font-medium text-gray-900">
                       {homework.approvedByAdmin ? (
                         <span className="text-green-500 font-bold">
                           Approved
@@ -44,7 +69,9 @@ const HomeworksComponent = ({ homeworks }) => {
             </table>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div>Homework Not Availables</div>
+      )}
     </div>
   );
 };

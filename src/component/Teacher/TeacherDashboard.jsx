@@ -6,9 +6,8 @@ import CreateHomework from "./CreateHomework";
 import AnswersList from "./AnswersList";
 
 const TeacherDashboard = () => {
-  const [homeworks, setHomeworks] = useState([]);
-  const [answers, setAnswers] = useState([]);
-  const { user } = useContext(MyContext);
+  const { user, homeworks, setHomeworks, answers, setAnswers } =
+    useContext(MyContext);
 
   useEffect(() => {
     const fetchHomeworksAndAnswers = async () => {
@@ -44,17 +43,7 @@ const TeacherDashboard = () => {
     fetchHomeworksAndAnswers();
   }, [user._id]);
 
-  return (
-    <div className="p-4 ml-24 flex justify-around gap-6  ">
-      <div>
-        <CreateHomework homeworks={homeworks} setHomeworks={setHomeworks} />
-        <HomeworksComponent homeworks={homeworks} />
-      </div>
-      <div>
-        <AnswersList answers={answers} setAnswers={setAnswers} />
-      </div>
-    </div>
-  );
+  return <div className="p-4 ml-24 flex justify-around gap-6  "></div>;
 };
 
 export default TeacherDashboard;

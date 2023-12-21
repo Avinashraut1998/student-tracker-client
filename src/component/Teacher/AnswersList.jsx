@@ -1,9 +1,34 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { MyContext } from "../../MyContext";
+import axios from "axios";
 
-const AnswersList = ({ answers, setAnswers }) => {
+const AnswersList = () => {
+  const { user, answers, setAnswers } = useContext(MyContext);
   console.log(answers);
 
+  useEffect(() => {
+    const fetchHomeworksAndAnswers = async () => {
+      const userId = user._id;
+
+      try {
+        // Fetch Answers
+        const answersResponse = await axios.get(
+          `http://localhost:8000/teacher/fetch-answers/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setAnswers(answersResponse.data.answersList);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchHomeworksAndAnswers();
+  }, [user._id]);
   return answers.length !== 0 ? (
     <div className="overflow-x-auto mt-4">
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">

@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { MyContext } from "../../MyContext";
 
-const CreateHomework = ({ homeworks, setHomeworks }) => {
+const CreateHomework = () => {
   const [title, setTitle] = useState("");
-  const { user } = useContext(MyContext);
+  const { user, homeworks, setHomeworks } = useContext(MyContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

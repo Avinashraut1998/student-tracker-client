@@ -21,13 +21,22 @@ import TeacherDashboard from "./component/Teacher/TeacherDashboard";
 import SingleAnswer from "./component/Teacher/SingleAnswer";
 import Studentdashboard from "./component/students/Studentdashboard";
 import SingleAnswerStudent from "./component/students/SingleAnswerStudent";
+import CreateHomework from "./component/Teacher/CreateHomework";
+import AnswersList from "./component/Teacher/AnswersList";
+import HomeworksComponent from "./component/Teacher/HomeworksComponents";
 
 function App() {
+  // Teacher States
+  const [homeworks, setHomeworks] = useState([]);
+
+  const [answers, setAnswers] = useState([]);
   const [user, setUser] = useState();
 
   return (
     <>
-      <MyContext.Provider value={{ user, setUser }}>
+      <MyContext.Provider
+        value={{ user, setUser, homeworks, setHomeworks, answers, setAnswers }}
+      >
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -35,7 +44,10 @@ function App() {
           <Route path="/teacher/login" element={<TeacherLogin />} />
           <Route path="/teacher/signup" element={<TeacherSignUp />} />
           <Route path="/teacher" element={<TeacherPage />}>
-            <Route index path="dashboard" element={<TeacherDashboard />} />
+            <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="create-homework" element={<CreateHomework />} />
+            <Route path="all-homework" element={<HomeworksComponent />} />
+            <Route path="students-homework" element={<AnswersList />} />
             <Route path="answer/:answerId" element={<SingleAnswer />} />
           </Route>
           {/* Students Routes */}
